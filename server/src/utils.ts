@@ -32,7 +32,7 @@ const pipeStream = (filePath: string, ws: WriteStream, options = {}, unlink=true
     })
 })
 export const mergeChunks = async (filename: string, size: number = DEFAULT_SIZE) => {
-    const filePath = path.join(PUBLIC_DIR, filename)
+    const filePath = path.join(PUBLIC_DIR, filename) // 合并后的文件写入的位置
     const exist = await fs.pathExists(filePath)
     if (!exist) { // 写入时的flag设置为'r+'，所以如果写入的文件不存在则先创建它
         await fs.createFile(filePath)
