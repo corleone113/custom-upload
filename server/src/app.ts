@@ -57,10 +57,10 @@ app.get('/verify/:filename', async (req: Request, res: Response) => {
     if (exist) { // 分片文件目录存在说明已经上传过部分分片文件
         uploadList = await fs.readdir(tempDir)
         uploadList = await Promise.all(uploadList.map(async (chunk_name: string) => {
-            let stat = await fs.stat(path.join(tempDir, chunk_name))
+            const { size } = await fs.stat(path.join(tempDir, chunk_name))
             return {
                 chunk_name, // 分片文件名称
-                size: stat.size // 已经写入的大小
+                size, // 已经写入的大小
             }
         }))
     }

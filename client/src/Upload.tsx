@@ -23,7 +23,7 @@ function Upload() {
             setHashPercent(0)
             setFilename('')
         }, 500)
-    }, [setUploadStatus,]) // 只需要依赖一个即可——一个变化了其它的自然也会又变化
+    }, [])
     const createRequests = useRequests(setPartList) // 发起请求的回调
     const uploadParts = useUploadParts(createRequests, setPartList, reset) // 分片上传回调
     const calculateHash = useCalculateHash(setHashPercent) // 计算文件hash值的回调
@@ -59,15 +59,15 @@ function Upload() {
         })
         setPartList(partList)
         await uploadParts(partList, filename,) // 开始上传分片文件
-    }, [currentFile, calculateHash, setPartList, setFilename, uploadParts,])
+    }, [currentFile])
     const handlePause = useCallback(() => {
         setUploadStatus(UploadStatus.PAUSE) // 将上传状态改为“暂停”
         partList.forEach((part: Part) => part.xhr && part.xhr.abort()) // 通过中断来实现暂停
-    }, [partList, setUploadStatus])
+    }, [partList])
     const handleResume = useCallback(async () => {
         setUploadStatus(UploadStatus.UPLOADING) // 恢复为“上传中”
         await uploadParts(partList, filename,) // 继续上传分片
-    }, [setUploadStatus, uploadParts, partList, filename])
+    }, [partList, filename])
     const columns = [
         {
             title: '切片名称',

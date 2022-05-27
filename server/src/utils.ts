@@ -5,11 +5,13 @@ import { pipeline } from 'stream'
 // const DEFAULT_SIZE = 80 * 1024
 const DEFAULT_SIZE = 80 * 1024 * 1024
 
-export const TMP_DIR = path.join(__dirname, 'tmp')
-export const PUBLIC_DIR = path.join(__dirname, 'public')
+const rootDir = process.cwd()
+export const TMP_DIR = path.join(rootDir, 'tmp')
+export const PUBLIC_DIR = path.join(rootDir, 'public')
 
+// 临时测试分片的函数
 export const splitChunks = async (filepath: string, size: number = DEFAULT_SIZE) => { // 文件分片
-    const filePath = path.join(__dirname, filepath) // 文件路径
+    const filePath = path.join(rootDir, filepath) // 文件路径
     let filename = filepath.split('/').pop() // 获取文件名称
     const chunksDir = path.join(TMP_DIR, filename!) // 存放文件分片的临时路径
     await fs.mkdirp(chunksDir) // 创建存放分片的临时目录
